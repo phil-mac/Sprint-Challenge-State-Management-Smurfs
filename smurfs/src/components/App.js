@@ -1,26 +1,14 @@
-import React, { useEffect } from "react";
-import {useSelector, useDispatch} from 'react-redux';
-import {fetchSmurfs} from '../actions';
+import React from "react";
 
 import "./App.css";
 import SmurfRegistrationForm from './SmurfRegistrationForm';
+import SmurfList from "./SmurfList";
 
 export default () => {
-  const dispatch = useDispatch();
-  const smurfs = useSelector(state => state.smurfs);
-
-  useEffect(() => {
-    dispatch(fetchSmurfs());
-  }, [])
-  
   return (
     <div className="App">
       <h1>SMURFS! 2.0 W/ Redux</h1>
-      
-      {smurfs.map(smurf => (
-        <p key={smurf.id}>{smurf.name} - {smurf.age} - {smurf.height} - {smurf.id}</p>
-      ))}
-
+      <SmurfList />
       <hr/>
       <SmurfRegistrationForm />
     </div>

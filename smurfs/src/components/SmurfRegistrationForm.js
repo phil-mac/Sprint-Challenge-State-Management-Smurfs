@@ -1,35 +1,58 @@
 import React, {useState} from 'react';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {registerSmurf} from '../actions';
+import {registerSmurf, updateSmurf} from '../actions';
 
 export default () => {
     const dispatch = useDispatch();
+    const [formType, setFormType] = useState('Register');
 
-    const [newSmurf, setNewSmurf] = useState({
+    const [newSmurfData, setNewSmurfData] = useState({
         name: '',
         age: 0,
         height: '0cm',
         id: -1
     });
 
+    const [updateId, setUpdateId] = useState(-1);
+
     const onSubmit = e => {
         e.preventDefault();
-        console.log(newSmurf);
+        console.log(newSmurfData);
         // dispatch action registerSmurf (newSmurf)
-        dispatch(registerSmurf(newSmurf));
+        if (formType == 'Register'){
+            dispatch(registerSmurf(newSmurfData));
+        } else{
+            dispatch(updateSmurf(updateId, newSmurfData))
+        }
     }
 
     const onChange = e => {
-        setNewSmurf({...newSmurf, [e.target.name]: e.target.value})
+        setNewSmurfData({...newSmurfData, [e.target.name]: e.target.value})
     }
-    
+
     return(
-        <form onSubmit={onSubmit}>
-            <input name='name' type='text' placeholder='name' onChange={onChange}/>
-            <input name='age' type='number' placeholder='age' onChange={onChange}/>
-            <input name='height' type='text' placeholder='height' onChange={onChange}/> <span> cm</span>
-            <button type='submit'>Register Smurf</button>
-        </form>
+        <div>
+            <button onClick={() => setFormType('Register')}>Register New Smurf</button>
+            <button onClick={() => setFormType('Update')}>Update Existing Smurf</button>
+            <br/>
+            <br/>
+            <form onSubmit={onSubmit}>
+                {formType === 'Update' && <>
+                    <input name='id' type='number' placeholder='id of smurf to update' onChange={e => setUpdateId(e.target.value)}/>
+                    <br/></>
+                }
+                <input name='name' type='text' placeholder='name' onChange={onChange}/>
+                <br/>
+
+                <input name='age' type='number' placeholder='age' onChange={onChange}/>
+                <br/>
+
+                <input name='height' type='text' placeholder='height' onChange={onChange}/>
+                <br/>
+                <button type='submit'>{formType} Smurf</button>
+            </form>
+        </div>
+        
     )
 }

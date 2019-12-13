@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {fetchSmurfs} from '../actions';
 
 import "./App.css";
+import SmurfRegistrationForm from './SmurfRegistrationForm';
 
 export default () => {
   const dispatch = useDispatch();
@@ -17,8 +18,11 @@ export default () => {
       <h1>SMURFS! 2.0 W/ Redux</h1>
       
       {smurfs.map(smurf => (
-        <p key={smurf.id}>{smurf.name}</p>
+        <p key={smurf.id}>{smurf.name} - {smurf.age} - {smurf.height} - {smurf.id}</p>
       ))}
+
+      <hr/>
+      <SmurfRegistrationForm />
     </div>
   );
 }
